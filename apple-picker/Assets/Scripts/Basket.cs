@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Basket : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Basket : MonoBehaviour
     TextMeshProUGUI scoreGT;
     ScoreKeeper scoreKeeper;
     int score = 0;
+    public float moveSpeed = 5f;
 
     private void Awake()
     {
@@ -18,11 +20,28 @@ public class Basket : MonoBehaviour
 
     void Update()
     {
-        Vector3 mousePos2D = Input.mousePosition;
-        mousePos2D.z = -Camera.main.transform.position.z;
-        Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+        MoveBasket();
+    }
+
+    private void MoveBasket()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
         Vector3 pos = transform.position;
-        pos.x = mousePos3D.x;
+        pos.x += horizontalInput * moveSpeed * Time.deltaTime;
+        transform.position = pos;
+    }
+
+    public void MoveRight()
+    {
+        Vector3 pos = transform.position;
+        pos.x += moveSpeed * Time.deltaTime;
+        transform.position = pos;
+    }
+
+    public void MoveLeft()
+    {
+        Vector3 pos = transform.position;
+        pos.x -= moveSpeed * Time.deltaTime;
         transform.position = pos;
     }
 
